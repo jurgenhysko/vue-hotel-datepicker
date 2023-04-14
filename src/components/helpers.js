@@ -15,18 +15,21 @@ import { default as isSameOrBefore } from "dayjs/plugin/isSameOrBefore";
 // eslint-disable-next-line import/no-named-default
 import { default as weekday } from "dayjs/plugin/weekday";
 
+const getTimezone = () => {
+  if (typeof window !== "undefined") {
+    return window?.vueDatePicker?.timezone;
+  }
+
+  return "Europe/Paris";
+};
+
 dayjs.extend(isBetween);
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 dayjs.extend(timezone);
 dayjs.extend(utc);
 dayjs.extend(weekday);
-
-export const transformDay = d => {
-  const getTimezone = window?.vueDatePicker?.timezone || "Europe/Paris";
-
-  return dayjs.tz(d, getTimezone);
-};
+dayjs.tz.setDefault(getTimezone());
 
 const addDate = (date, quantity, type) => {
   const d = dayjs(date);
@@ -41,54 +44,60 @@ const subtractDate = (date, quantity, type) => {
 };
 
 const isAfter = (time1, time2) => {
-  const d1 = transformDay(time2);
-  const d2 = transformDay(time1);
+  const d1 = dayjs(time2);
+  const d2 = dayjs(time1);
 
   return d1.isAfter(d2, "day");
 };
 
 const isBefore = (time1, time2) => {
-  const d1 = transformDay(time1);
-  const d2 = transformDay(time2);
+  const d1 = dayjs(time1);
+  const d2 = dayjs(time2);
 
   return d1.isBefore(d2, "day");
 };
 
 const isBeforeOrEqual = (time1, time2) => {
-  const d1 = transformDay(time2);
-  const d2 = transformDay(time1);
+  const d1 = dayjs(time2);
+  const d2 = dayjs(time1);
 
   return d1.isSameOrBefore(d2, "day");
 };
 
 export const isBetweenDate = (fromDate, toDate, givenDate) => {
-  const d1 = transformDay(fromDate);
-  const d2 = transformDay(toDate);
-  const d3 = transformDay(givenDate);
+  const d1 = dayjs(fromDate);
+  const d2 = dayjs(toDate);
+  const d3 = dayjs(givenDate);
 
-  return transformDay(d3).isBetween(d1, d2, "day", []);
+  return dayjs(d3).isBetween(d1, d2, "day", []);
 };
 
 const getDateDiff = (time1, time2, type) => {
-  const d1 = transformDay(time1);
-  const d2 = transformDay(time2);
+  const d1 = dayjs(time1);
+  const d2 = dayjs(time2);
 
   return Math.abs(d1.diff(d2, type));
 };
 
 export default {
   transformDay(d) {
-    return transformDay(d);
+    return dayjs.tz(d, getTimezone);
   },
   formatTransformDay(d) {
-    return transformDay(d).format("YYYY-MM-DD");
+    return this.transformDay(d).format("YYYY-MM-DD");
+  },
+  dayjs(d) {
+    return dayjs(d);
+  },
+  formatdayjs(d) {
+    return dayjs(d).format("YYYY-MM-DD");
   },
   getNextDate(datesArray, referenceDate) {
-    const now = transformDay(referenceDate);
+    const now = dayjs(referenceDate);
     const closest = Infinity;
 
     return datesArray.find(d => {
-      const date = transformDay(d);
+      const date = dayjs(d);
 
       if (date.isAfter(now) && closest) {
         return d;
@@ -98,7 +107,7 @@ export default {
     });
   },
   nextDateByDayOfWeek(weekDay, referenceDate) {
-    const newReferenceDate = transformDay(referenceDate);
+    const newReferenceDate = dayjs(referenceDate);
     let newWeekDay = weekDay.toLowerCase();
     const days = [
       "sunday",
@@ -132,8 +141,8 @@ export default {
     return this.getNextDate(tempArray, referenceDate);
   },
   countDays(start, end, type = "day") {
-    const d1 = transformDay(start);
-    const d2 = transformDay(end);
+    const d1 = dayjs(start);
+    const d2 = dayjs(end);
 
     return Math.abs(d1.diff(d2, type));
   },
@@ -144,9 +153,6 @@ export default {
     return addDate(date, quantity, "day");
   },
   getDayDiff(d1, d2) {
-    // const t1 = transformDay(time1).millisecond();
-    // const t2 = transformDay(time2).millisecond();
-
     const t2 = new Date(d2).getTime();
     const t1 = new Date(d1).getTime();
 
@@ -164,18 +170,18 @@ export default {
     return currentDate;
   },
   getFirstDayOfMonth(date) {
-    const d = transformDay(date);
+    const d = dayjs(date);
 
     return d.startOf("month").toDate();
   },
   getFirstDay(date, firstDayOfWeek) {
-    return transformDay(date)
+    return dayjs(date)
       .startOf("month")
       .weekday(firstDayOfWeek)
       .format("YYYY-MM-DD");
   },
   getNextMonth(date) {
-    return transformDay(date)
+    return dayjs(date)
       .add(1, "month")
       .startOf("month")
       .toDate();
@@ -199,8 +205,8 @@ export default {
     return newArr;
   },
   getDaysArray(start, end) {
-    const d1 = transformDay(start);
-    const d2 = transformDay(end);
+    const d1 = dayjs(start);
+    const d2 = dayjs(end);
     const lenghDifference = getDateDiff(d1.toDate(), d2.toDate(), "day");
     const arr = [];
 
@@ -240,8 +246,8 @@ export default {
     return isBeforeOrEqual(time2, time1);
   },
   compareDay(day1, day2) {
-    const date1 = transformDay(day1).format("YYYY-MM-DD");
-    const date2 = transformDay(day2).format("YYYY-MM-DD");
+    const date1 = dayjs(day1).format("YYYY-MM-DD");
+    const date2 = dayjs(day2).format("YYYY-MM-DD");
 
     if (date1 > date2) {
       return 1;
