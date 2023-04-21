@@ -175,10 +175,18 @@ export default {
     return d.startOf("month").toDate();
   },
   getFirstDay(date, firstDayOfWeek) {
-    return dayjs(date)
-      .startOf("month")
-      .weekday(firstDayOfWeek)
-      .format("YYYY-MM-DD");
+    const firstDay = this.getFirstDayOfMonth(date);
+    let offset = 0;
+
+    if (firstDayOfWeek > 0) {
+      offset = firstDay.getDay() === 0 ? -7 + firstDayOfWeek : firstDayOfWeek;
+    }
+
+    return dayjs(
+      new Date(
+        firstDay.setDate(firstDay.getDate() - (firstDay.getDay() - offset))
+      )
+    ).format("YYYY-MM-DD");
   },
   getNextMonth(date) {
     return dayjs(date)
