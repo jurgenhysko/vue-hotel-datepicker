@@ -1649,7 +1649,10 @@ export default {
         const nextStartNextPeriod = this.addDays(nextPeriod.startAt, 1);
 
         if (nextStartNextPeriod) {
-          return this.getDaysArray(nextStartNextPeriod, nextDate);
+          return this.getDaysArray(
+            nextPeriod.startAt,
+            this.substractDays(nextDate, 1)
+          );
         }
 
         return null;
@@ -1678,7 +1681,7 @@ export default {
 
         this.nextPeriodDisableDates = this.getDaysArray(
           nextStartNextPeriod,
-          nextDate
+          this.substractDays(nextDate, 1)
         ).map(d => this.dateFormater(d, "YYYY-MM-DD"));
         this.nextPeriodDisableDates = this.sortedDates(
           this.nextPeriodDisableDates
