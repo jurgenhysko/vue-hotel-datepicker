@@ -220,7 +220,9 @@
             <i class="arrow"></i>
           </button>
         </div>
-
+        <div class="date-picker_footer">
+            <button class="apply-button" @click="isOpen = false">Apply</button>
+        </div>
         <slot
           name="content"
           :clearSelection="clearSelection"
