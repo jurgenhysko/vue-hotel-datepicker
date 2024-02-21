@@ -11,6 +11,7 @@
       :class="[
         'datepicker__month-day',
         dayClass,
+        halfDayClass,
         checkinCheckoutClass,
         bookingClass,
         { 'datepicker__month-day--today': isToday }
