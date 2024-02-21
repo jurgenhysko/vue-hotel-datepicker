@@ -644,7 +644,6 @@ export default {
         this.createHalfDayDates(this.baseHalfDayDates);
         this.reRender();
         this.showCustomTooltip = false;
-        this.isOpen = false;
       }
 
       this.$emit("check-out-changed", newDate);
