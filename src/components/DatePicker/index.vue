@@ -117,7 +117,6 @@
             type="button"
             class="datepicker__month-button datepicker__month-button--next"
             @click="renderNextMonth"
-            :disabled="isPreventedMaxMonth"
             :tabindex="isOpen ? 0 : -1"
           />
         </div>
