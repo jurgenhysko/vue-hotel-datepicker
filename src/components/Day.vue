@@ -127,6 +127,10 @@ export default {
       default: false,
       type: Boolean
     },
+    disabledDates: {
+      type: Array,
+      default: () => []
+    },
     sortedDisabledDates: {
       type: Array,
       default: () => []
@@ -659,6 +663,10 @@ export default {
     dayClicked(event, date) {
       let resetCheckin = false;
       let disableCheckoutOnCheckin = !this.disableCheckoutOnCheckin;
+
+      if (this.disabledDates.includes(this.dateFormater(date))) {
+        return;
+      }
 
       if (
         !this.checkIncheckOutHalfDay[this.formatDate] &&

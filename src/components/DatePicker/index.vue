@@ -203,6 +203,7 @@
                       @clearSelection="clearSelection"
                       @bookingClicked="handleBookingClicked"
                       @dayClicked="handleDayClick"
+                      :disabledDates="disabledDates"
                     />
                   </div>
                 </div>
