@@ -865,13 +865,13 @@ export default {
         return true;
       }
 
-      if (
-        this.checkIn &&
-        !this.checkOut &&
-        this.isDateBefore(date, this.checkIn)
-      ) {
-        return true;
-      }
+      // if (
+      //   this.checkIn &&
+      //   !this.checkOut &&
+      //   this.isDateBefore(date, this.checkIn)
+      // ) {
+      //   return true;
+      // }
 
       return false;
     },
@@ -1028,6 +1028,10 @@ export default {
       if (this.checkIn == null && this.singleDaySelection === false) {
         this.checkIn = date;
         this.setMinimumDuration(date);
+      // eslint-disable-next-line prettier/prettier
+      } else if (this.checkIn !== null && this.isDateBefore(date, this.checkIn)){
+          // eslint-disable-next-line prettier/prettier
+          this.checkIn = date
       } else if (this.singleDaySelection === true) {
         this.checkIn = date;
         this.checkOut = date;

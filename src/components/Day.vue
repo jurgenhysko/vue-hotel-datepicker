@@ -758,9 +758,10 @@ export default {
         this.nextDisabledDate !== Infinity
       ) {
         this.isDisabled = true;
-      } else if (this.isDateBefore(this.date, this.checkIn)) {
-        this.isDisabled = true;
-      }
+      } 
+      // else if (this.isDateBefore(this.date, this.checkIn)) {
+      //   this.isDisabled = true;
+      // }
 
       if (
         this.compareDay(this.date, this.checkIn) === 0 &&
