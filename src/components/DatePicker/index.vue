@@ -1032,6 +1032,7 @@ export default {
       } else if (this.checkIn !== null && this.isDateBefore(date, this.checkIn)){
           // eslint-disable-next-line prettier/prettier
           this.checkIn = date
+          this.checkOut = null;
       } else if (this.singleDaySelection === true) {
         this.checkIn = date;
         this.checkOut = date;
