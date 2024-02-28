@@ -284,6 +284,16 @@ export default {
         return "datepicker__month-day--valid datepicker__month-day--disabled datepicker__month-day--not-allowed minimumDurationUnvalidDay";
       }
 
+      if (
+        !this.isDisabled &&
+        this.date === this.hoveringDate &&
+        (this.compareDay(this.checkIn, this.hoveringDate) < 0) &&
+        this.checkIn !== null &&
+        this.checkOut == null
+      ) {
+        return "datepicker__month-day--selected datepicker__month-day--hovering currentDay";
+      }
+
       // Current Day
       if (
         !this.isDisabled &&
@@ -291,7 +301,7 @@ export default {
         this.checkIn !== null &&
         this.checkOut == null
       ) {
-        return "datepicker__month-day--selected datepicker__month-day--hovering currentDay";
+        return "datepicker__month-day--selected datepicker__month-day--hovering";
       }
 
       // Highlight the selected dates and prevent the user from selecting
