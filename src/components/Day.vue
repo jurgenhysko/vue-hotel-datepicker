@@ -296,6 +296,16 @@ export default {
         return "datepicker__month-day--selected datepicker__month-day--hovering currentDay";
       }
 
+      if (
+        !this.isDisabled &&
+        this.date === this.hoveringDate &&
+        dayDiff >= 0 &&
+        this.checkIn !== null &&
+        this.checkOut == null
+      ) {
+        return "datepicker__month-day--selected datepicker__month-day--hovering notCurrentDay";
+      }
+
       // Current Day
       if (
         !this.isDisabled &&
