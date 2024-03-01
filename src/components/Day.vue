@@ -284,10 +284,12 @@ export default {
         return "datepicker__month-day--valid datepicker__month-day--disabled datepicker__month-day--not-allowed minimumDurationUnvalidDay";
       }
 
+      const dayDiff = this.compareDay(this.checkIn, this.hoveringDate);
+
       if (
         !this.isDisabled &&
         this.date === this.hoveringDate &&
-        (this.compareDay(this.checkIn, this.hoveringDate) < 0) &&
+        dayDiff < 0 &&
         this.checkIn !== null &&
         this.checkOut == null
       ) {
